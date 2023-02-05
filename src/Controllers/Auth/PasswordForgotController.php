@@ -1,0 +1,22 @@
+<?php
+
+namespace SanderCokart\LaravelApiAuth\Controllers\Auth;
+
+use App\Http\Controllers\Controller;
+use SanderCokart\LaravelApiAuth\Requests\PasswordForgotRequest;
+use App\Models\User;
+use Illuminate\Http\JsonResponse;
+
+class PasswordForgotController extends Controller
+{
+    public function __invoke(PasswordForgotRequest $request): JsonResponse
+    {
+        $user = User::where('email', $request->safe()->only('email'))->first();
+
+        $user?->sendPasswordResetNotification();
+
+        return response()->json([
+            'message' => 'If an account with that email exists, you will receive an email with a link to reset your password.',
+        ]);
+    }
+}

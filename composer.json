@@ -1,0 +1,36 @@
+{
+    "name": "sandercokart/laravel-api-auth",
+    "description": "Laravel API authentication package",
+    "keywords": [
+        "laravel",
+        "api",
+        "authentication"
+    ],
+    "scripts": {
+        "generate-stubs": "SanderCokart\\LaravelApiAuth\\Scripts::generateStubs"
+    },
+    "license": "MIT",
+    "type": "library",
+    "minimum-stability": "dev",
+    "autoload": {
+        "psr-4": {
+            "SanderCokart\\LaravelApiAuth\\": "src/"
+        }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "SanderCokart\\LaravelApiAuth\\ApiAuthServiceProvider"
+            ],
+            "aliases": {
+                "SecurityToken": "SanderCokart\\LaravelApiAuth\\Facades\\SecurityToken"
+            }
+        }
+    },
+    "authors": [
+        {
+            "name": "Sander Cokart",
+            "email": "cokart32@gmail.com"
+        }
+    ]
+}
