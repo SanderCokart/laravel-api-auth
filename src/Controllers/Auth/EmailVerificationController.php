@@ -1,7 +1,6 @@
 <?php
 
 namespace SanderCokart\LaravelApiAuth\Controllers\Auth;
-;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\JsonResponse;

@@ -12,7 +12,7 @@ directories.forEach((directory) => {
     fs.mkdirSync(__dirname + '/' + directory, {recursive: true});
 });
 
-function process(model, directory) {
+function commonNamespace(model, directory) {
     let content = fs.readFileSync(`${__dirname}/${directory}/${model}`, 'utf8');
     //replace 'namespace SanderCokart\LaravelApiAuth' with App
     content = content.replace(/namespace SanderCokart\\LaravelApiAuth/g, 'namespace App');
@@ -20,23 +20,30 @@ function process(model, directory) {
     fs.writeFileSync(`${__dirname}/stubs/${directory}/${modelWithStubExtension}`, content);
 }
 
+function controllerNamespace(controller) {
+    let content = fs.readFileSync(`${__dirname}/Controllers/Auth/${controller}`, 'utf8');
+    content = content.replace(/namespace SanderCokart\\LaravelApiAuth\\Controllers\\Auth/g, 'namespace App\\Http\\Controllers\\Auth');
+    const controllerWithStubExtension = controller.replace(/\.php/g, '.stub');
+    fs.writeFileSync(`${__dirname}/stubs/Controllers/Auth/${controllerWithStubExtension}`, content);
+}
+
 //loop through models and replace namespace SanderCokart\LaravelApiAuth\Models; with namespace App\Models and save to stubs/Models with stub extension
 Models.forEach((model) => {
-    process(model, 'Models');
+    commonNamespace(model, 'Models');
 });
 
 Requests.forEach((request) => {
-    process(request, 'Requests');
+    commonNamespace(request, 'Requests');
 });
 
 Notifications.forEach((notification) => {
-    process(notification, 'Notifications');
+    commonNamespace(notification, 'Notifications');
 });
 
 Observers.forEach((observer) => {
-    process(observer, 'Observers');
+    commonNamespace(observer, 'Observers');
 });
 
 Controllers.forEach((controller) => {
-    process(controller, 'Controllers/Auth');
+    controllerNamespace(controller);
 });
