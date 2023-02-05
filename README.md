@@ -51,7 +51,7 @@ composer require sandercokart/laravel-api-auth
 
 ## Publish all <span style="color: red">(dangerous)</span> - for starter projects
 ```bash
-php artisan vendor:publish --provider="SanderCoKart\LaravelApiAuth\LaravelApiAuthServiceProvider"
+php artisan vendor:publish --provider="SanderCokart\LaravelApiAuth\LaravelApiAuthServiceProvider"
 ```
 
 ## <span style="color: yellow">Optional</span>
