@@ -4,9 +4,10 @@ const Models = fs.readdirSync(__dirname + '/Models');
 const Requests = fs.readdirSync(__dirname + '/Requests');
 const Notifications = fs.readdirSync(__dirname + '/Notifications');
 const Observers = fs.readdirSync(__dirname + '/Observers');
+const Controllers = fs.readdirSync(__dirname + '/Controllers/Auth');
 
 // Create directories if they don't exist
-const directories = ['stubs/Models', 'stubs/Requests', 'stubs/Notifications', 'stubs/Observers'];
+const directories = ['stubs/Models', 'stubs/Requests', 'stubs/Notifications', 'stubs/Observers', 'stubs/Controllers/Auth'];
 directories.forEach((directory) => {
     fs.mkdirSync(__dirname + '/' + directory, {recursive: true});
 });
@@ -34,4 +35,8 @@ Notifications.forEach((notification) => {
 
 Observers.forEach((observer) => {
     process(observer, 'Observers');
+});
+
+Controllers.forEach((controller) => {
+    process(controller, 'Controllers/Auth');
 });
