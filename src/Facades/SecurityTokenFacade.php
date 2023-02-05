@@ -4,7 +4,7 @@ namespace SanderCokart\LaravelApiAuth\Facades;
 
 use Illuminate\Support\Facades\Facade;
 
-class SecurityToken extends Facade
+class SecurityTokenFacade extends Facade
 {
     protected static function getFacadeAccessor(): string
     {

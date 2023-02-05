@@ -59,14 +59,4 @@ class SecurityToken
             ? $urlGenerator($record->id, $token)
             : null;
     }
-
-    /**
-     * Returns a version 7 (Unix Epoch time) UUID
-     *
-     * @return string
-     */
-    public static function generateUuid(): string
-    {
-        return Uuid::uuid7()->toString();
-    }
 }

@@ -11,6 +11,13 @@ return [
         'password_resets'     => 525600, // 1 year
         'password_changes'    => 525600, // 1 year
     ],
+
+    /**
+     * Here you can specify what controllers and methods should be used for the routes.
+     *
+     * FORMATS: SomethingController:class or [SomethingController::class, 'method'] or \App\Http\Controllers\SomethingController::class
+     * All default controllers are invokable.
+     */
     'routes'      => [
         'guest-routes'         => [
             'register' => \SanderCokart\LaravelApiAuth\Controllers\Auth\RegisterController::class,

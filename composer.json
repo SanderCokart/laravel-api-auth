@@ -23,7 +23,7 @@
                 "SanderCokart\\LaravelApiAuth\\ApiAuthServiceProvider"
             ],
             "aliases": {
-                "SecurityToken": "SanderCokart\\LaravelApiAuth\\Facades\\SecurityToken"
+                "SecurityToken": "SanderCokart\\LaravelApiAuth\\Facades\\SecurityTokenFacade"
             }
         }
     },

@@ -52,7 +52,7 @@ class ApiAuthServiceProvider extends ServiceProvider
         //publish the config file
         $this->publishes([
             __DIR__ . '/config/api-auth.php' => config_path('api-auth.php'),
-        ], ['api-auth-config']);
+        ], ['api-auth-config', 'api-auth-recommended']);
 
         //publish the optional migration
         $this->publishes([
@@ -78,7 +78,7 @@ class ApiAuthServiceProvider extends ServiceProvider
             __DIR__ . '/stubs/Notifications/EmailVerificationNotification.stub' => app_path('Notifications/EmailVerificationNotification.php'),
             __DIR__ . '/stubs/Notifications/PasswordChangedNotification.stub'   => app_path('Notifications/PasswordChangeNotification.php'),
             __DIR__ . '/stubs/Notifications/PasswordResetNotification.stub'     => app_path('Notifications/PasswordResetNotification.php'),
-        ], ['api-auth-notifications']);
+        ], ['api-auth-notifications', 'api-auth-recommended']);
 
         //publish controllers
         $this->publishes([
@@ -94,6 +94,22 @@ class ApiAuthServiceProvider extends ServiceProvider
             __DIR__ . '/stubs/Controllers/Auth/LoginController.stub'    => app_path('Http/Controllers/Auth/LoginController.php'),
             __DIR__ . '/stubs/Controllers/Auth/LogoutController.stub'   => app_path('Http/Controllers/Auth/LogoutController.php'),
         ], ['api-auth-controllers']);
+
+        //publish observers
+        $this->publishes([
+            __DIR__ . '/stubs/Observers/UserObserver.stub'     => app_path('Observers/UserObserver.php'),
+        ], ['api-auth-user-observer', 'api-auth-recommended']);
+
+        //publish requests
+        $this->publishes([
+            __DIR__ . '/stubs/Requests/EmailChangeRequest.stub'       => app_path('Http/Requests/EmailChangeRequest.php'),
+            __DIR__ . '/stubs/Requests/EmailVerificationRequest.stub' => app_path('Http/Requests/EmailVerificationRequest.php'),
+            __DIR__ . '/stubs/Requests/PasswordChangeRequest.stub'    => app_path('Http/Requests/PasswordChangeRequest.php'),
+            __DIR__ . '/stubs/Requests/PasswordForgotRequest.stub'    => app_path('Http/Requests/PasswordForgotRequest.php'),
+            __DIR__ . '/stubs/Requests/PasswordResetRequest.stub'     => app_path('Http/Requests/PasswordResetRequest.php'),
+            __DIR__ . '/stubs/Requests/RegisterRequest.stub'          => app_path('Http/Requests/RegisterRequest.php'),
+            __DIR__ . '/stubs/Requests/LoginRequest.stub'             => app_path('Http/Requests/LoginRequest.php'),
+        ], ['api-auth-requests', 'api-auth-recommended']);
     }
 
     private function registerRouteMacros(): void
