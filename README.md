@@ -1,5 +1,4 @@
 <h1 style="text-align: center">Laravel Api Auth</h1>
-<hr/>
 
 > This package provides a simple way to authenticate users using an API. It uses Sanctum for authentication and has a few extra features.
 Such as password change, email change and email reset that are not included by default in laravel.
@@ -21,7 +20,7 @@ I hope you find it useful as well.
 
 <hr/>
 
-# NOTE
+## NOTE
 
 I am a beginner when it comes to creating packages. So if you find any bugs or have any suggestions, please let me know.
 
@@ -40,7 +39,7 @@ And finally if you find this package useful, please consider giving it a star.
 -   Email Change
 -   Email Reset
 
-## Installation
+# Installation
 
 You can install the package via composer:
 
@@ -48,31 +47,31 @@ You can install the package via composer:
 composer require sandercokart/laravel-api-auth
 ```
 
-## Publishing - Read carefully
+# Publishing - Read carefully
 
-### Publish all <span style="color: red">(dangerous)</span> - for starter projects
+## Publish all <span style="color: red">(dangerous)</span> - for starter projects
 ```bash
 php artisan vendor:publish --provider="SanderCoKart\LaravelApiAuth\LaravelApiAuthServiceProvider"
 ```
 
-### <span style="color: yellow">Optional</span>
+## <span style="color: yellow">Optional</span>
 > These are optional to publish. They are not required.
 
-##### Migrations
+### Migrations
 > Only publish and run the migrations if you want to add `timezone` on the user model.
 
 ```bash
 php artisan vendor:publish --provider="SanderCoKart\LaravelApiAuth\LaravelApiAuthServiceProvider" --tag="api-auth-migrations"
 ```
 
-#### Models
+### Models
 > This package contains 4 models that you can use. Publish them if you want to change them.
 Models are `EmailChange`, `EmailReset`, `PasswordReset` and `PasswordChange`.
 ```bash
 php artisan vendor:publish --provider="SanderCoKart\LaravelApiAuth\LaravelApiAuthServiceProvider" --tag="api-auth-models"
 ```
 
-##### User Observer - <span style="color: red">IMPORTANT!</span>
+### User Observer - <span style="color: red">IMPORTANT!</span>
 <strong>If you do not publish this, you will have to manually send the necessary notifications.</strong>
 
 > This `UserObserver` will automatically hash the password when the user is `creating` or `updating`.
@@ -82,38 +81,38 @@ like you can see in the example user model and publishable controllers.
 php artisan vendor:publish --provider="SanderCoKart\LaravelApiAuth\LaravelApiAuthServiceProvider" --tag="api-auth-user-observer"
 ```
 
-##### Example User Model
+### Example User Model
 > This is an example user model that you can use to get started. It is however not required.
 ```bash
 php artisan vendor:publish --provider="SanderCoKart\LaravelApiAuth\LaravelApiAuthServiceProvider" --tag="api-auth-example-user"
 ```
 
-###  <span style="color: green">Recommended</span>
+##  <span style="color: green">Recommended</span>
 > The following are recommended to be published. They are however not required.
 
-##### Config
+### Config
 > The config allows for customizing the controllers and expiration times.
 
 ```bash
 php artisan vendor:publish --provider="SanderCoKart\LaravelApiAuth\LaravelApiAuthServiceProvider" --tag="api-auth-config"
 ```
 
-#### Models
+### Models
 ```bash
 php artisan vendor:publish --provider="SanderCoKart\LaravelApiAuth\LaravelApiAuthServiceProvider" --tag="api-auth-models"
 ```
 
-#### Controllers
+### Controllers
 ```bash
 php artisan vendor:publish --provider="SanderCoKart\LaravelApiAuth\LaravelApiAuthServiceProvider" --tag="api-auth-controllers"
 ```
 
-#### Requests
+### Requests
 ```bash
 php artisan vendor:publish --provider="SanderCoKart\LaravelApiAuth\LaravelApiAuthServiceProvider" --tag="api-auth-requests"
 ```
 
-#### Notifications
+### Notifications
 ```bash
 php artisan vendor:publish --provider="SanderCoKart\LaravelApiAuth\LaravelApiAuthServiceProvider" --tag="api-auth-notifications"
 ```
@@ -128,7 +127,7 @@ Route::ApiAuthGuestRoutes();
 Route::ApiAuthAuthenticatedRoutes();
 ```
 
-## Under the hood of the package
+# Under the hood of the package
 
 > There is a facade available for the service.
 It contains all the logic for generating URLs and tokens.
