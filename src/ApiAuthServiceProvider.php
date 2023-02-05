@@ -5,6 +5,7 @@ namespace SanderCokart\LaravelApiAuth;
 use Carbon\CarbonInterface;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\URL;
 use Illuminate\Support\ServiceProvider;
 use SanderCokart\LaravelApiAuth\Support\SecurityToken;
 
@@ -32,6 +33,7 @@ class ApiAuthServiceProvider extends ServiceProvider
         $this->registerCarbonMacros();
         $this->registerRouteMacros();
         $this->configPublishing();
+        $this->setRootUrl();
     }
 
     private function registerCarbonMacros(): void
@@ -57,12 +59,12 @@ class ApiAuthServiceProvider extends ServiceProvider
         //publish the optional migration
         $this->publishes([
             __DIR__ . '/migrations/2023_02_05_154339_add_timezone_to_users_table.php' => database_path('migrations/' . date('Y_m_d_His', time()) . '_add_timezone_to_users_table.php'),
-        ], ['api-auth-migrations']);
+        ], ['api-auth-migrations', 'api-auth-optional']);
 
         //publish the example user
         $this->publishes([
             __DIR__ . '/models/ExampleUser.php' => app_path('Models/ApiAuthExampleUser.php'),
-        ], ['api-auth-example-user']);
+        ], ['api-auth-example-user', 'api-auth-optional']);
 
         //publish models
         $this->publishes([
@@ -70,7 +72,7 @@ class ApiAuthServiceProvider extends ServiceProvider
             __DIR__ . '/stubs/Models/EmailVerification.stub' => app_path('Models/EmailVerification.php'),
             __DIR__ . '/stubs/Models/PasswordChange.stub'    => app_path('Models/PasswordChange.php'),
             __DIR__ . '/stubs/Models/PasswordReset.stub'     => app_path('Models/PasswordReset.php'),
-        ], ['api-auth-models']);
+        ], ['api-auth-models', 'api-auth-recommended']);
 
         //publish notifications
         $this->publishes([
@@ -84,21 +86,21 @@ class ApiAuthServiceProvider extends ServiceProvider
         $this->publishes([
             __DIR__ . '/stubs/Controllers/Auth/EmailChangeController.stub'       => app_path('Http/Controllers/Auth/EmailChangeController.php'),
             __DIR__ . '/stubs/Controllers/Auth/EmailVerificationController.stub' => app_path('Http/Controllers/Auth/EmailVerificationController.php'),
-            __DIR__ . '/stubs/Controllers/Auth/EmailResetController.stub'        => app_path('Http/Controllers/Auth/PasswordResetController.php'),
+            __DIR__ . '/stubs/Controllers/Auth/EmailResetController.stub'        => app_path('Http/Controllers/Auth/EmailResetController.php'),
 
             __DIR__ . '/stubs/Controllers/Auth/PasswordChangeController.stub' => app_path('Http/Controllers/Auth/PasswordChangeController.php'),
-            __DIR__ . '/stubs/Controllers/Auth/PasswordForgotController.stub' => app_path('Http/Controllers/Auth/LogoutController.php'),
+            __DIR__ . '/stubs/Controllers/Auth/PasswordForgotController.stub' => app_path('Http/Controllers/Auth/PasswordForgotController.php'),
             __DIR__ . '/stubs/Controllers/Auth/PasswordResetController.stub'  => app_path('Http/Controllers/Auth/PasswordResetController.php'),
 
             __DIR__ . '/stubs/Controllers/Auth/RegisterController.stub' => app_path('Http/Controllers/Auth/RegisterController.php'),
             __DIR__ . '/stubs/Controllers/Auth/LoginController.stub'    => app_path('Http/Controllers/Auth/LoginController.php'),
             __DIR__ . '/stubs/Controllers/Auth/LogoutController.stub'   => app_path('Http/Controllers/Auth/LogoutController.php'),
-        ], ['api-auth-controllers']);
+        ], ['api-auth-controllers', 'api-auth-recommended']);
 
         //publish observers
         $this->publishes([
-            __DIR__ . '/stubs/Observers/UserObserver.stub'     => app_path('Observers/UserObserver.php'),
-        ], ['api-auth-user-observer', 'api-auth-recommended']);
+            __DIR__ . '/stubs/Observers/UserObserver.stub' => app_path('Observers/UserObserver.php'),
+        ], ['api-auth-user-observer', 'api-auth-optional']);
 
         //publish requests
         $this->publishes([
@@ -110,6 +112,12 @@ class ApiAuthServiceProvider extends ServiceProvider
             __DIR__ . '/stubs/Requests/RegisterRequest.stub'          => app_path('Http/Requests/RegisterRequest.php'),
             __DIR__ . '/stubs/Requests/LoginRequest.stub'             => app_path('Http/Requests/LoginRequest.php'),
         ], ['api-auth-requests', 'api-auth-recommended']);
+
+        //publish routes
+        $this->publishes([
+            __DIR__ . '/routes/authenticated.php' => base_path('routes/vendor/authenticated.php'),
+            __DIR__ . '/routes/guest.php'         => base_path('routes/vendor/guest.php'),
+        ], ['api-auth-routes', 'api-auth-optional']);
     }
 
     private function registerRouteMacros(): void
@@ -140,5 +148,10 @@ class ApiAuthServiceProvider extends ServiceProvider
                 Route::patch('/change', config('api-auth.routes.authenticated-routes.password.change'))->name('change');
             });
         });
+    }
+
+    private function setRootUrl(): void
+    {
+        URL::forceRootUrl(config('app.frontend_url', 'http://localhost:3000'));
     }
 }
