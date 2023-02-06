@@ -169,6 +169,7 @@ php artisan vendor:publish --provider="SanderCoKart\LaravelApiAuth\LaravelApiAut
 ```
 
 I also want to gift you this RouteServiceProvider routes configuration. Just copy and replace it in your `RouteServiceProvider.php`.
+If you use this you can remove middleware from the routes files.
 
 ```php
         $this->routes(function () {
