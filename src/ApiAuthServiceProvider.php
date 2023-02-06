@@ -63,7 +63,7 @@ class ApiAuthServiceProvider extends ServiceProvider
 
         //publish the example user
         $this->publishes([
-            __DIR__ . '/models/ExampleUser.php' => app_path('Models/ApiAuthExampleUser.php'),
+            __DIR__ . '/models/ExampleUser.php' => app_path('Models/ExampleUser.php'),
         ], ['api-auth-example-user', 'api-auth-optional']);
 
         //publish models
