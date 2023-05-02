@@ -2,10 +2,11 @@
 
 namespace SanderCokart\LaravelApiAuth;
 
+use App\Http\Middleware\RootUrlMiddleware;
 use Carbon\CarbonInterface;
+use Illuminate\Routing\Router;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Route;
-use Illuminate\Support\Facades\URL;
 use Illuminate\Support\ServiceProvider;
 use SanderCokart\LaravelApiAuth\Support\SecurityToken;
 
@@ -20,10 +21,12 @@ class ApiAuthServiceProvider extends ServiceProvider
 
     public function boot(): void
     {
-        $this->registerCarbonMacros();
-        $this->registerRouteMacros();
-        $this->setupPublishing();
-        $this->setRootUrl();
+        if (app()->runningInConsole()) {
+            $this->registerCarbonMacros();
+            $this->registerRouteMacros();
+            $this->setupPublishing();
+            $this->installMiddleware();
+        }
     }
 
     public function publishRoutes(): void
@@ -31,7 +34,7 @@ class ApiAuthServiceProvider extends ServiceProvider
         $this->publishes([
             __DIR__ . '/routes/authenticated.php' => base_path('routes/vendor/authenticated.php'),
             __DIR__ . '/routes/guest.php'         => base_path('routes/vendor/guest.php'),
-        ], ['api-auth-routes', 'api-auth-optional']);
+        ], ['auth-routes']);
     }
 
     public function publishRequests(): void
@@ -44,14 +47,14 @@ class ApiAuthServiceProvider extends ServiceProvider
             __DIR__ . '/stubs/Requests/PasswordResetRequest.stub'     => app_path('Http/Requests/PasswordResetRequest.php'),
             __DIR__ . '/stubs/Requests/RegisterRequest.stub'          => app_path('Http/Requests/RegisterRequest.php'),
             __DIR__ . '/stubs/Requests/LoginRequest.stub'             => app_path('Http/Requests/LoginRequest.php'),
-        ], ['api-auth-requests', 'api-auth-recommended']);
+        ], ['auth-requests']);
     }
 
     public function publishObservers(): void
     {
         $this->publishes([
             __DIR__ . '/stubs/Observers/UserObserver.stub' => app_path('Observers/UserObserver.php'),
-        ], ['api-auth-user-observer', 'api-auth-optional']);
+        ], ['auth-observers']);
     }
 
     public function publishControllers(): void
@@ -68,7 +71,7 @@ class ApiAuthServiceProvider extends ServiceProvider
             __DIR__ . '/stubs/Controllers/Auth/RegisterController.stub' => app_path('Http/Controllers/Auth/RegisterController.php'),
             __DIR__ . '/stubs/Controllers/Auth/LoginController.stub'    => app_path('Http/Controllers/Auth/LoginController.php'),
             __DIR__ . '/stubs/Controllers/Auth/LogoutController.stub'   => app_path('Http/Controllers/Auth/LogoutController.php'),
-        ], ['api-auth-controllers', 'api-auth-recommended']);
+        ], ['auth-controllers']);
     }
 
     public function publishNotifications(): void
@@ -78,7 +81,7 @@ class ApiAuthServiceProvider extends ServiceProvider
             __DIR__ . '/stubs/Notifications/EmailVerificationNotification.stub' => app_path('Notifications/EmailVerificationNotification.php'),
             __DIR__ . '/stubs/Notifications/PasswordChangedNotification.stub'   => app_path('Notifications/PasswordChangeNotification.php'),
             __DIR__ . '/stubs/Notifications/PasswordResetNotification.stub'     => app_path('Notifications/PasswordResetNotification.php'),
-        ], ['api-auth-notifications', 'api-auth-recommended']);
+        ], ['auth-notifications']);
     }
 
     public function publishModels(): void
@@ -88,28 +91,28 @@ class ApiAuthServiceProvider extends ServiceProvider
             __DIR__ . '/stubs/Models/EmailVerification.stub' => app_path('Models/EmailVerification.php'),
             __DIR__ . '/stubs/Models/PasswordChange.stub'    => app_path('Models/PasswordChange.php'),
             __DIR__ . '/stubs/Models/PasswordReset.stub'     => app_path('Models/PasswordReset.php'),
-        ], ['api-auth-models', 'api-auth-recommended']);
+        ], ['auth-models']);
     }
 
     public function publishTheExampleUser(): void
     {
         $this->publishes([
             __DIR__ . '/stubs/Models/ExampleUser.stub' => app_path('Models/ExampleUser.php'),
-        ], ['api-auth-example-user', 'api-auth-optional']);
+        ], ['auth-example-user']);
     }
 
     public function publishTheOptionalMigration(): void
     {
         $this->publishes([
             __DIR__ . '/migrations/2023_02_05_154339_add_timezone_to_users_table.php' => database_path('migrations/' . date('Y_m_d_His', time()) . '_add_timezone_to_users_table.php'),
-        ], ['api-auth-migrations', 'api-auth-optional']);
+        ], ['auth-migrations']);
     }
 
     public function publishConfigFile(): void
     {
         $this->publishes([
             __DIR__ . '/config/api-auth.php' => config_path('api-auth.php'),
-        ], ['api-auth-config', 'api-auth-recommended']);
+        ], ['auth-config']);
     }
 
     private function registerCarbonMacros(): void
@@ -155,11 +158,6 @@ class ApiAuthServiceProvider extends ServiceProvider
         });
     }
 
-    private function setRootUrl(): void
-    {
-        URL::forceRootUrl(config('app.frontend_url', 'http://localhost:3000'));
-    }
-
     private function setupPublishing(): void
     {
         $this->publishConfigFile();
@@ -171,5 +169,10 @@ class ApiAuthServiceProvider extends ServiceProvider
         $this->publishRoutes();
         $this->publishTheExampleUser();
         $this->publishTheOptionalMigration();
+    }
+
+    private function installMiddleware(): void
+    {
+        app(Router::class)->aliasMiddleware('api.auth.force.root.url.origin', RootUrlMiddleware::class);
     }
 }

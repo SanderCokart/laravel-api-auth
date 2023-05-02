@@ -20,7 +20,7 @@
     "extra": {
         "laravel": {
             "providers": [
-                "SanderCokart\\LaravelApiAuth\\ApiAuthServiceProvider"
+              "AuthServiceProvider"
             ],
             "aliases": {
                 "SecurityToken": "SanderCokart\\LaravelApiAuth\\Facades\\SecurityTokenFacade"
