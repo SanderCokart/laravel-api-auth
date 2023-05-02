@@ -14,6 +14,15 @@ trait MustVerifyEmail
 {
     use Notifiable;
 
+    public function initializeMustVerifyEmailCasts(): void
+    {
+        if (! isset($this->casts['email_verified_at'])) {
+            $this->casts = array_merge($this->casts, [
+                'email_verified_at' => 'datetime',
+            ]);
+        }
+    }
+
     public function isVerified(): bool
     {
         return ! is_null($this->email_verified_at);
