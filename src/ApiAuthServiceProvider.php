@@ -2,12 +2,12 @@
 
 namespace SanderCokart\LaravelApiAuth;
 
-use App\Http\Middleware\RootUrlMiddleware;
 use Carbon\CarbonInterface;
 use Illuminate\Routing\Router;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\ServiceProvider;
+use SanderCokart\LaravelApiAuth\Middleware\RootUrlMiddleware;
 use SanderCokart\LaravelApiAuth\Support\SecurityToken;
 
 class ApiAuthServiceProvider extends ServiceProvider
