@@ -8,6 +8,7 @@ use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\ServiceProvider;
 use SanderCokart\LaravelApiAuth\Middleware\RootUrlMiddleware;
+use SanderCokart\LaravelApiAuth\Observers\UserObserver;
 use SanderCokart\LaravelApiAuth\Support\SecurityToken;
 
 class ApiAuthServiceProvider extends ServiceProvider
@@ -34,7 +35,7 @@ class ApiAuthServiceProvider extends ServiceProvider
         $this->publishes([
             __DIR__ . '/routes/authenticated.php' => base_path('routes/vendor/authenticated.php'),
             __DIR__ . '/routes/guest.php'         => base_path('routes/vendor/guest.php'),
-        ], ['auth-routes']);
+        ], ['sander-cokart-auth-routes']);
     }
 
     public function publishRequests(): void
@@ -47,14 +48,14 @@ class ApiAuthServiceProvider extends ServiceProvider
             __DIR__ . '/stubs/Requests/PasswordResetRequest.stub'     => app_path('Http/Requests/PasswordResetRequest.php'),
             __DIR__ . '/stubs/Requests/RegisterRequest.stub'          => app_path('Http/Requests/RegisterRequest.php'),
             __DIR__ . '/stubs/Requests/LoginRequest.stub'             => app_path('Http/Requests/LoginRequest.php'),
-        ], ['auth-requests']);
+        ], ['sander-cokart-auth-requests']);
     }
 
     public function publishObservers(): void
     {
         $this->publishes([
             __DIR__ . '/stubs/Observers/UserObserver.stub' => app_path('Observers/UserObserver.php'),
-        ], ['auth-observers']);
+        ], ['sander-cokart-auth-observers']);
     }
 
     public function publishControllers(): void
@@ -71,17 +72,17 @@ class ApiAuthServiceProvider extends ServiceProvider
             __DIR__ . '/stubs/Controllers/Auth/RegisterController.stub' => app_path('Http/Controllers/Auth/RegisterController.php'),
             __DIR__ . '/stubs/Controllers/Auth/LoginController.stub'    => app_path('Http/Controllers/Auth/LoginController.php'),
             __DIR__ . '/stubs/Controllers/Auth/LogoutController.stub'   => app_path('Http/Controllers/Auth/LogoutController.php'),
-        ], ['auth-controllers']);
+        ], ['sander-cokart-auth-controllers']);
     }
 
     public function publishNotifications(): void
     {
         $this->publishes([
-            __DIR__ . '/stubs/Notifications/EmailChangedNotification.stub'      => app_path('Notifications/EmailChangeNotification.php'),
-            __DIR__ . '/stubs/Notifications/EmailVerificationNotification.stub' => app_path('Notifications/EmailVerificationNotification.php'),
-            __DIR__ . '/stubs/Notifications/PasswordChangedNotification.stub'   => app_path('Notifications/PasswordChangeNotification.php'),
-            __DIR__ . '/stubs/Notifications/PasswordResetNotification.stub'     => app_path('Notifications/PasswordResetNotification.php'),
-        ], ['auth-notifications']);
+            __DIR__ . '/stubs/Notifications/EmailChangedNotification.stub'      => app_path('Notifications/vendor/SanderCokart/EmailChangeNotification.php'),
+            __DIR__ . '/stubs/Notifications/EmailVerificationNotification.stub' => app_path('Notifications/vendor/SanderCokart/EmailVerificationNotification.php'),
+            __DIR__ . '/stubs/Notifications/PasswordChangedNotification.stub'   => app_path('Notifications/vendor/SanderCokart/PasswordChangeNotification.php'),
+            __DIR__ . '/stubs/Notifications/PasswordResetNotification.stub'     => app_path('Notifications/vendor/SanderCokart/PasswordResetNotification.php'),
+        ], ['sander-cokart-auth-notifications']);
     }
 
     public function publishModels(): void
@@ -98,21 +99,21 @@ class ApiAuthServiceProvider extends ServiceProvider
     {
         $this->publishes([
             __DIR__ . '/stubs/Models/ExampleUser.stub' => app_path('Models/ExampleUser.php'),
-        ], ['auth-example-user']);
+        ], ['sander-cokart-auth-example-user']);
     }
 
     public function publishTheOptionalMigration(): void
     {
         $this->publishes([
             __DIR__ . '/migrations/2023_02_05_154339_add_timezone_to_users_table.php' => database_path('migrations/' . date('Y_m_d_His', time()) . '_add_timezone_to_users_table.php'),
-        ], ['auth-migrations']);
+        ], ['sander-cokart-auth-migrations']);
     }
 
     public function publishConfigFile(): void
     {
         $this->publishes([
             __DIR__ . '/config/api-auth.php' => config_path('api-auth.php'),
-        ], ['auth-config']);
+        ], ['sander-cokart-auth-config']);
     }
 
     private function registerCarbonMacros(): void

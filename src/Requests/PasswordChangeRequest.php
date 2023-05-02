@@ -43,4 +43,11 @@ class PasswordChangeRequest extends FormRequest
         throw new AuthorizationException('You must verify your email address before changing your password.');
     }
 
+    protected function passedValidation(): void
+    {
+        $this->user()->update([
+            'password' => bcrypt($this->password),
+        ]);
+    }
+
 }

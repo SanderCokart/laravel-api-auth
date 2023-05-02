@@ -15,7 +15,7 @@ class UserObserver
      */
     public function creating(User $user): void
     {
-        $user->password = bcrypt($user->password);
+
     }
 
     /**
@@ -28,7 +28,6 @@ class UserObserver
     public function updating(User $user): void
     {
         if ($user->isDirty('password')) {
-            $user->password = bcrypt($user->password);
             $user->sendPasswordChangedNotification();
         }
     }

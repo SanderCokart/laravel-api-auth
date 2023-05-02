@@ -35,4 +35,11 @@ class PasswordResetRequest extends FormRequest
             'token'    => ['required', 'string'],
         ];
     }
+
+    protected function passedValidation(): void
+    {
+        $this->merge([
+            'password' => bcrypt($this->password),
+        ]);
+    }
 }
