@@ -44,4 +44,11 @@ class RegisterRequest extends FormRequest
             'email' => strtolower($this->email),
         ]);
     }
+
+    protected function passedValidation(): void
+    {
+        $this->merge([
+            'password' => bcrypt($this->password),
+        ]);
+    }
 }

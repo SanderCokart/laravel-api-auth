@@ -6,15 +6,23 @@ use SanderCokart\LaravelApiAuth\Controllers\Auth\EmailVerificationController;
 use SanderCokart\LaravelApiAuth\Controllers\Auth\LogoutController;
 use SanderCokart\LaravelApiAuth\Controllers\Auth\PasswordChangeController;
 
+//Macro alternative: Route::ApiAuthAuthenticatedRoutes();
 Route::group(['prefix' => 'account', 'as' => 'account.', 'middleware' => 'auth:sanctum'], function () {
     Route::post('/logout', LogoutController::class)->name('logout');
 
     Route::group(['prefix' => 'email', 'as' => 'email.'], function () {
         Route::post('/verify', EmailVerificationController::class)->name('verify');
         Route::patch('/change', EmailChangeController::class)->name('change');
+
+        //VIEW PLACEHOLDER
+        //Route::get('/verify', fn() => view('email.verify'))->name('verify.view');
+        //Route::get('/change', fn() => view('email.change'))->name('change.view');
     });
 
     Route::group(['prefix' => 'password', 'as' => 'password.'], function () {
         Route::patch('/change', PasswordChangeController::class)->name('change');
+
+        //VIEW PLACEHOLDER
+        //Route::get('/change', fn() => view('password.change'))->name('change.view');
     });
 });
