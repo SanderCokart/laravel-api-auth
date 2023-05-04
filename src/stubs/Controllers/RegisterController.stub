@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Http\Controllers\Auth;
+namespace App\Http\Controllers\vendor\SanderCokart\LaravelApiAuth;
 
 use App\Http\Controllers\Controller;
-use SanderCokart\LaravelApiAuth\Requests\RegisterRequest;
 use App\Models\User;
 use Illuminate\Http\JsonResponse;
+use App\Requests\vendor\SanderCokart\LaravelApiAuth\RegisterRequest;
 
 class RegisterController extends Controller
 {

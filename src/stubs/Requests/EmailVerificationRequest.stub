@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Requests;
+namespace App\Http\Requests\vendor\SanderCokart\LaravelApiAuth;
 
 use Illuminate\Foundation\Http\FormRequest;
 
