@@ -49,13 +49,14 @@ class EmailChangedNotification extends Notification
         $minutes = config('auth.expirations.email_changes');
 
         return (new MailMessage)
-            ->subject(sprintf('%s - Email Changed', config('app.frontend_name')))
+            ->subject(sprintf('%s - Email Changed', config('api-auth.frontend_name')))
             ->greeting("Hello {$notifiable->name}!")
             ->line('Your email address has been changed.')
             ->line('If you did not change your email address, press the button below to reset your email and password.')
             ->line($this->generateExpirationTimestamp($notifiable, $minutes))
             ->action('This was not me!', $this->url)
-            ->salutation('Kind regards, Sander Cokart');
+            //TODO replace hardcoded  with config
+            ->salutation(config('api-auth.salutation'));
     }
 
     /**

@@ -8,7 +8,6 @@ use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\ServiceProvider;
 use SanderCokart\LaravelApiAuth\Middleware\RootUrlMiddleware;
-use SanderCokart\LaravelApiAuth\Observers\UserObserver;
 use SanderCokart\LaravelApiAuth\Support\SecurityToken;
 
 class ApiAuthServiceProvider extends ServiceProvider
@@ -23,97 +22,110 @@ class ApiAuthServiceProvider extends ServiceProvider
     public function boot(): void
     {
         if (app()->runningInConsole()) {
+            $this->commands([
+                Commands\InstallApiAuthCommand::class,
+            ]);
+            $this->publishEverything();
+        } else {
             $this->registerCarbonMacros();
             $this->registerRouteMacros();
-            $this->setupPublishing();
-            $this->installMiddleware();
+            $this->registerRouteMiddleware();
         }
+
     }
 
     public function publishRoutes(): void
     {
         $this->publishes([
-            __DIR__ . '/routes/authenticated.php' => base_path('routes/vendor/authenticated.php'),
-            __DIR__ . '/routes/guest.php'         => base_path('routes/vendor/guest.php'),
-        ], ['sander-cokart-auth-routes']);
+            __DIR__ . '/routes/authenticated.php' => base_path('routes/vendor/SanderCokart/LaravelApiAuth/authenticated.php'),
+            __DIR__ . '/routes/guest.php'         => base_path('routes/vendor/SanderCokart/LaravelApiAuth/guest.php'),
+            __DIR__ . '/routes/verified.php'      => base_path('routes/vendor/SanderCokart/LaravelApiAuth/verified.php'),
+        ], ['sc-auth-routes']);
     }
 
     public function publishRequests(): void
     {
         $this->publishes([
-            __DIR__ . '/stubs/Requests/EmailChangeRequest.stub'       => app_path('Http/Requests/EmailChangeRequest.php'),
-            __DIR__ . '/stubs/Requests/EmailVerificationRequest.stub' => app_path('Http/Requests/EmailVerificationRequest.php'),
-            __DIR__ . '/stubs/Requests/PasswordChangeRequest.stub'    => app_path('Http/Requests/PasswordChangeRequest.php'),
-            __DIR__ . '/stubs/Requests/PasswordForgotRequest.stub'    => app_path('Http/Requests/PasswordForgotRequest.php'),
-            __DIR__ . '/stubs/Requests/PasswordResetRequest.stub'     => app_path('Http/Requests/PasswordResetRequest.php'),
-            __DIR__ . '/stubs/Requests/RegisterRequest.stub'          => app_path('Http/Requests/RegisterRequest.php'),
-            __DIR__ . '/stubs/Requests/LoginRequest.stub'             => app_path('Http/Requests/LoginRequest.php'),
-        ], ['sander-cokart-auth-requests']);
+            __DIR__ . '/stubs/Requests/EmailChangeRequest.stub'       => app_path('Http/Requests/vendor/SanderCokart/LaravelApiAuth/EmailChangeRequest.php'),
+            __DIR__ . '/stubs/Requests/EmailVerificationRequest.stub' => app_path('Http/Requests/vendor/SanderCokart/LaravelApiAuth/EmailVerificationRequest.php'),
+            __DIR__ . '/stubs/Requests/PasswordChangeRequest.stub'    => app_path('Http/Requests/vendor/SanderCokart/LaravelApiAuth/PasswordChangeRequest.php'),
+            __DIR__ . '/stubs/Requests/PasswordForgotRequest.stub'    => app_path('Http/Requests/vendor/SanderCokart/LaravelApiAuth/PasswordForgotRequest.php'),
+            __DIR__ . '/stubs/Requests/PasswordResetRequest.stub'     => app_path('Http/Requests/vendor/SanderCokart/LaravelApiAuth/PasswordResetRequest.php'),
+            __DIR__ . '/stubs/Requests/RegisterRequest.stub'          => app_path('Http/Requests/vendor/SanderCokart/LaravelApiAuth/RegisterRequest.php'),
+            __DIR__ . '/stubs/Requests/LoginRequest.stub'             => app_path('Http/Requests/vendor/SanderCokart/LaravelApiAuth/LoginRequest.php'),
+        ], ['sc-auth-requests']);
     }
 
     public function publishObservers(): void
     {
         $this->publishes([
             __DIR__ . '/stubs/Observers/UserObserver.stub' => app_path('Observers/UserObserver.php'),
-        ], ['sander-cokart-auth-observers']);
+        ], ['sc-auth-observers']);
     }
 
     public function publishControllers(): void
     {
         $this->publishes([
-            __DIR__ . '/stubs/Controllers/Auth/EmailChangeController.stub'       => app_path('Http/Controllers/Auth/EmailChangeController.php'),
-            __DIR__ . '/stubs/Controllers/Auth/EmailVerificationController.stub' => app_path('Http/Controllers/Auth/EmailVerificationController.php'),
-            __DIR__ . '/stubs/Controllers/Auth/EmailResetController.stub'        => app_path('Http/Controllers/Auth/EmailResetController.php'),
+            __DIR__ . '/stubs/Controllers/EmailChangeController.stub'       => app_path('Http/Controllers/vendor/SanderCokart/LaravelApiAuth/EmailChangeController.php'),
+            __DIR__ . '/stubs/Controllers/EmailVerificationController.stub' => app_path('Http/Controllers/vendor/SanderCokart/LaravelApiAuth/EmailVerificationController.php'),
+            __DIR__ . '/stubs/Controllers/EmailResetController.stub'        => app_path('Http/Controllers/vendor/SanderCokart/LaravelApiAuth/EmailResetController.php'),
 
-            __DIR__ . '/stubs/Controllers/Auth/PasswordChangeController.stub' => app_path('Http/Controllers/Auth/PasswordChangeController.php'),
-            __DIR__ . '/stubs/Controllers/Auth/PasswordForgotController.stub' => app_path('Http/Controllers/Auth/PasswordForgotController.php'),
-            __DIR__ . '/stubs/Controllers/Auth/PasswordResetController.stub'  => app_path('Http/Controllers/Auth/PasswordResetController.php'),
+            __DIR__ . '/stubs/Controllers/PasswordChangeController.stub' => app_path('Http/Controllers/vendor/SanderCokart/LaravelApiAuth/PasswordChangeController.php'),
+            __DIR__ . '/stubs/Controllers/PasswordForgotController.stub' => app_path('Http/Controllers/vendor/SanderCokart/LaravelApiAuth/PasswordForgotController.php'),
+            __DIR__ . '/stubs/Controllers/PasswordResetController.stub'  => app_path('Http/Controllers/vendor/SanderCokart/LaravelApiAuth/PasswordResetController.php'),
 
-            __DIR__ . '/stubs/Controllers/Auth/RegisterController.stub' => app_path('Http/Controllers/Auth/RegisterController.php'),
-            __DIR__ . '/stubs/Controllers/Auth/LoginController.stub'    => app_path('Http/Controllers/Auth/LoginController.php'),
-            __DIR__ . '/stubs/Controllers/Auth/LogoutController.stub'   => app_path('Http/Controllers/Auth/LogoutController.php'),
-        ], ['sander-cokart-auth-controllers']);
+            __DIR__ . '/stubs/Controllers/RegisterController.stub' => app_path('Http/Controllers/vendor/SanderCokart/LaravelApiAuth/RegisterController.php'),
+            __DIR__ . '/stubs/Controllers/LoginController.stub'    => app_path('Http/Controllers/vendor/SanderCokart/LaravelApiAuth/LoginController.php'),
+            __DIR__ . '/stubs/Controllers/LogoutController.stub'   => app_path('Http/Controllers/vendor/SanderCokart/LaravelApiAuth/LogoutController.php'),
+        ], ['sc-auth-controllers']);
     }
 
     public function publishNotifications(): void
     {
         $this->publishes([
-            __DIR__ . '/stubs/Notifications/EmailChangedNotification.stub'      => app_path('Notifications/vendor/SanderCokart/EmailChangeNotification.php'),
-            __DIR__ . '/stubs/Notifications/EmailVerificationNotification.stub' => app_path('Notifications/vendor/SanderCokart/EmailVerificationNotification.php'),
-            __DIR__ . '/stubs/Notifications/PasswordChangedNotification.stub'   => app_path('Notifications/vendor/SanderCokart/PasswordChangeNotification.php'),
-            __DIR__ . '/stubs/Notifications/PasswordResetNotification.stub'     => app_path('Notifications/vendor/SanderCokart/PasswordResetNotification.php'),
-        ], ['sander-cokart-auth-notifications']);
+            __DIR__ . '/stubs/Notifications/EmailChangedNotification.stub'      => app_path('Notifications/vendor/SanderCokart/LaravelApiAuth/EmailChangedNotification.php'),
+            __DIR__ . '/stubs/Notifications/EmailVerificationNotification.stub' => app_path('Notifications/vendor/SanderCokart/LaravelApiAuth/EmailVerificationNotification.php'),
+            __DIR__ . '/stubs/Notifications/PasswordChangedNotification.stub'   => app_path('Notifications/vendor/SanderCokart/LaravelApiAuth/PasswordChangedNotification.php'),
+            __DIR__ . '/stubs/Notifications/PasswordResetNotification.stub'     => app_path('Notifications/vendor/SanderCokart/LaravelApiAuth/PasswordResetNotification.php'),
+        ], ['sc-auth-notifications']);
     }
 
     public function publishModels(): void
     {
         $this->publishes([
-            __DIR__ . '/stubs/Models/EmailChange.stub'       => app_path('Models/EmailChange.php'),
-            __DIR__ . '/stubs/Models/EmailVerification.stub' => app_path('Models/EmailVerification.php'),
-            __DIR__ . '/stubs/Models/PasswordChange.stub'    => app_path('Models/PasswordChange.php'),
-            __DIR__ . '/stubs/Models/PasswordReset.stub'     => app_path('Models/PasswordReset.php'),
-        ], ['auth-models']);
+            __DIR__ . '/stubs/Models/EmailChange.stub'       => app_path('Models/vendor/SanderCokart/LaravelApiAuth/EmailChange.php'),
+            __DIR__ . '/stubs/Models/EmailVerification.stub' => app_path('Models/vendor/SanderCokart/LaravelApiAuth/EmailVerification.php'),
+            __DIR__ . '/stubs/Models/PasswordChange.stub'    => app_path('Models/vendor/SanderCokart/LaravelApiAuth/PasswordChange.php'),
+            __DIR__ . '/stubs/Models/PasswordReset.stub'     => app_path('Models/vendor/SanderCokart/LaravelApiAuth/PasswordReset.php'),
+        ], ['sc-auth-models']);
     }
 
     public function publishTheExampleUser(): void
     {
         $this->publishes([
-            __DIR__ . '/stubs/Models/ExampleUser.stub' => app_path('Models/ExampleUser.php'),
-        ], ['sander-cokart-auth-example-user']);
+            __DIR__ . '/stubs/Models/ExampleUser.stub' => app_path('Models/vendor/SanderCokart/LaravelApiAuth/ExampleUser.php'),
+        ], ['sc-auth-example-user']);
     }
 
-    public function publishTheOptionalMigration(): void
+    public function publishTimezoneMigration(): void
     {
         $this->publishes([
-            __DIR__ . '/migrations/2023_02_05_154339_add_timezone_to_users_table.php' => database_path('migrations/' . date('Y_m_d_His', time()) . '_add_timezone_to_users_table.php'),
-        ], ['sander-cokart-auth-migrations']);
+            __DIR__ . '/migrations/add_timezone_to_users_table.php' => database_path('migrations/' . date('Y_m_d_His') . '_add_timezone_to_users_table.php'),
+        ], ['sc-auth-timezone-migration']);
+    }
+
+    public function publishMigration(): void
+    {
+        $this->publishes([
+            __DIR__ . '/migrations/create_email_and_password_related_tables.php' => database_path('migrations/' . date('Y_m_d_His') . '_create_api_auth_tables.php'),
+        ], ['sc-auth-migrations']);
     }
 
     public function publishConfigFile(): void
     {
         $this->publishes([
             __DIR__ . '/config/api-auth.php' => config_path('api-auth.php'),
-        ], ['sander-cokart-auth-config']);
+        ], ['sc-auth-config']);
     }
 
     private function registerCarbonMacros(): void
@@ -159,7 +171,7 @@ class ApiAuthServiceProvider extends ServiceProvider
         });
     }
 
-    private function setupPublishing(): void
+    private function publishEverything(): void
     {
         $this->publishConfigFile();
         $this->publishControllers();
@@ -169,11 +181,12 @@ class ApiAuthServiceProvider extends ServiceProvider
         $this->publishRequests();
         $this->publishRoutes();
         $this->publishTheExampleUser();
-        $this->publishTheOptionalMigration();
+        $this->publishTimezoneMigration();
+        $this->publishMigration();
     }
 
-    private function installMiddleware(): void
+    private function registerRouteMiddleware(): void
     {
-        app(Router::class)->aliasMiddleware('api.auth.force.root.url.origin', RootUrlMiddleware::class);
+        app(Router::class)->aliasMiddleware('api-auth.force-root-url-origin', RootUrlMiddleware::class);
     }
 }

@@ -1,6 +1,6 @@
 <?php
 
-namespace SanderCokart\LaravelApiAuth\Controllers\Auth;
+namespace SanderCokart\LaravelApiAuth\Controllers;
 
 use App\Http\Controllers\Controller;
 use App\Models\User;

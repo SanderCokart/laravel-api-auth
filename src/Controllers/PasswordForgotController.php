@@ -1,11 +1,11 @@
 <?php
 
-namespace SanderCokart\LaravelApiAuth\Controllers\Auth;
+namespace SanderCokart\LaravelApiAuth\Controllers;
 
 use App\Http\Controllers\Controller;
-use SanderCokart\LaravelApiAuth\Requests\PasswordForgotRequest;
 use App\Models\User;
 use Illuminate\Http\JsonResponse;
+use SanderCokart\LaravelApiAuth\Requests\PasswordForgotRequest;
 
 class PasswordForgotController extends Controller
 {

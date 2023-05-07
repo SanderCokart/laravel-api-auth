@@ -49,7 +49,7 @@ class PasswordChangedNotification extends Notification
         $minutes = config('auth.expirations.password_resets');
 
         return (new MailMessage)
-            ->subject(sprintf('%s - Password Changed', config('app.frontend_name')))
+            ->subject(sprintf('%s - Password Changed', config('api-auth.frontend_name')))
             ->greeting("Hello {$notifiable->name}!")
             ->line('You are receiving this email because your password has been changed.')
             ->line('if you did not change your password, please press the button below to reset your password.')

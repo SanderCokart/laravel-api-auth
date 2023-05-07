@@ -48,7 +48,7 @@ class EmailVerificationNotification extends Notification
         $minutes = config('auth.expirations.email_verifications');
 
         return (new MailMessage)
-            ->subject(sprintf('%s - Email Verification', config('app.frontend_name')))
+            ->subject(sprintf('%s - Email Verification', config('api-auth.frontend_name')))
             ->greeting("Hello {$notifiable->name}!")
             ->line('Please verify your email address by clicking the button below.')
             ->action('Verify', $this->url)

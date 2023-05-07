@@ -1,11 +1,11 @@
 <?php
 
-namespace SanderCokart\LaravelApiAuth\Controllers\Auth;
+namespace SanderCokart\LaravelApiAuth\Controllers;
 
 use App\Http\Controllers\Controller;
-use SanderCokart\LaravelApiAuth\Requests\EmailChangeRequest;
 use Illuminate\Http\JsonResponse;
 use SanderCokart\LaravelApiAuth\Observers\UserObserver;
+use SanderCokart\LaravelApiAuth\Requests\EmailChangeRequest;
 
 class EmailChangeController extends Controller
 {

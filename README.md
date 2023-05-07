@@ -1,4 +1,4 @@
-<h1 style="text-align: center">Laravel Api Auth</h1>
+# Laravel Api Auth
 
 This package provides a simple way to authenticate users using an API. It uses Sanctum for authentication and has a few
 extra features.
@@ -14,9 +14,8 @@ This package is also easier to read and understand than the default laravel auth
 to how tokens are handled. There is a single service that handles URL generation and token generation.
 
 Laravel uses a `PasswordBroker` to handle password resets and `DatabaseTokenRepository` but to reuse and reinvent these
-to apply
-to email changes, resets and such was too cumbersome for me personally. So I have abstracted away all the logic into a
-single service.
+to apply to email changes, resets and such was too cumbersome for me personally. So I have abstracted away all the logic into a
+single reusable service.
 
 I felt that it would be a waste of time to create these features for every project I work on.
 So I decided to create this package.
@@ -54,14 +53,6 @@ composer require sandercokart/laravel-api-auth
 ```
 
 ## User intervention
-
-This package sets the URL facade used by laravel to generate routes. This is done so that the `route()` helper method
-generates urls that point to the frontend.
-It uses `config('app.frontend_url')` to generate the url. So you will have to set this in your `config/app.php` file. \
-Additionally, Notifications sent by this package will use `config('app.frontend_name')` under the hood to print out the
-frontend application name.
-We recommend setting this as well. I believe the backend name and frontend name should be different, hence the
-separation.
 
 # Publishing - Read carefully
 

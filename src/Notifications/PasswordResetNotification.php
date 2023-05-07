@@ -49,7 +49,7 @@ class PasswordResetNotification extends Notification
         $minutes = config('auth.expirations.password_resets');
 
         return (new MailMessage)
-            ->subject(sprintf('%s - Password Reset', config('app.frontend_name')))
+            ->subject(sprintf('%s - Password Reset', config('api-auth.frontend_name')))
             ->greeting("Hello {$notifiable->name}!")
             ->line('You are receiving this email because we received a password reset request for your account.')
             ->line('If you did not request a password reset, no further action is required.')

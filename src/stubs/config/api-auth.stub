@@ -1,11 +1,11 @@
 <?php
 
 return [
-    'frontend_name' => env('FRONTEND_NAME', 'config.api-auth.frontend_name'),
-    'salutation_author_name' => 'Laravel API Auth',
+    'frontend_name' => env('FRONTEND_NAME', :frontend_name),
+    'salutation' => :salutation,
     'options'     => [
         'timezones'     => [
-            'enabled' => false,
+            'enabled' => :timezones_enabled,
         ],
     ],
 

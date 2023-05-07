@@ -1,16 +1,16 @@
 <?php
 
-namespace SanderCokart\LaravelApiAuth\Controllers\Auth;
+namespace SanderCokart\LaravelApiAuth\Controllers;
 
 use App\Http\Controllers\Controller;
 use App\Models\User;
-use SanderCokart\LaravelApiAuth\Requests\LoginRequest;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\ValidationException;
 use Laravel\Sanctum\Http\Middleware\EnsureFrontendRequestsAreStateful;
 use Laravel\Sanctum\NewAccessToken;
+use SanderCokart\LaravelApiAuth\Requests\LoginRequest;
 
 class LoginController extends Controller
 {

@@ -1,15 +1,19 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use SanderCokart\LaravelApiAuth\Controllers\Auth\EmailResetController;
-use SanderCokart\LaravelApiAuth\Controllers\Auth\LoginController;
-use SanderCokart\LaravelApiAuth\Controllers\Auth\PasswordForgotController;
-use SanderCokart\LaravelApiAuth\Controllers\Auth\PasswordResetController;
-use SanderCokart\LaravelApiAuth\Controllers\Auth\RegisterController;
+use SanderCokart\LaravelApiAuth\Controllers\{
+    EmailResetController,
+    LoginController,
+    PasswordForgotController,
+    PasswordResetController,
+    RegisterController
+};
 
-//Macro alternative: Route::ApiAuthGuestRoutes();
+//Macro alternative: Route::ApiAuthGuestRoutes(); // Does NOT include GET routes for views
 Route::group(['prefix' => 'account', 'as' => 'account.', 'middleware' => 'guest'], function () {
-    Route::post('/register', RegisterController::class)->name('register');
+    Route::post('/register', RegisterController::class)->name('register')
+        ->middleware('api-auth.force-root-url-origin');
+
     Route::post('/login', LoginController::class)->name('login');
 
     //VIEW PLACEHOLDER
@@ -17,13 +21,18 @@ Route::group(['prefix' => 'account', 'as' => 'account.', 'middleware' => 'guest'
     //Route::get('/register', fn() => view('register'))->name('register.view');
 
     Route::group(['prefix' => 'email', 'as' => 'email.'], function () {
-        Route::patch('/reset', EmailResetController::class)->name('reset');
+        Route::patch('/reset', EmailResetController::class)->name('reset')
+            ->middleware('api-auth.force-root-url-origin');
 
         //VIEW PLACEHOLDER
         //Route::get('/reset', fn() => view('email-reset'))->name('reset.view');
     });
 
-    Route::group(['prefix' => 'password', 'as' => 'password.'], function () {
+    Route::group([
+        'prefix'     => 'password',
+        'as'         => 'password.',
+        'middleware' => 'api-auth.force-root-url-origin',
+    ], function () {
         Route::post('/forgot', PasswordForgotController::class)->name('forgot');
         Route::patch('/reset', PasswordResetController::class)->name('reset');
 

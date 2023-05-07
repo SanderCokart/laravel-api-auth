@@ -1,13 +1,13 @@
 <?php
 
-namespace SanderCokart\LaravelApiAuth\Controllers\Auth;
+namespace SanderCokart\LaravelApiAuth\Controllers;
 
 use App\Http\Controllers\Controller;
 use App\Models\User;
 use Illuminate\Http\JsonResponse;
 use SanderCokart\LaravelApiAuth\Models\EmailChange;
-use SanderCokart\LaravelApiAuth\Requests\EmailResetRequest;
 use SanderCokart\LaravelApiAuth\Observers\UserObserver;
+use SanderCokart\LaravelApiAuth\Requests\EmailResetRequest;
 
 class EmailResetController extends Controller
 {

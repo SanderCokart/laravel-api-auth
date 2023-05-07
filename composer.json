@@ -6,9 +6,6 @@
         "api",
         "authentication"
     ],
-    "scripts": {
-        "generate-stubs": "SanderCokart\\LaravelApiAuth\\Scripts::generateStubs"
-    },
     "license": "MIT",
     "type": "library",
     "minimum-stability": "dev",
@@ -20,7 +17,7 @@
     "extra": {
         "laravel": {
             "providers": [
-              "AuthServiceProvider"
+                "SanderCokart\\LaravelApiAuth\\ApiAuthServiceProvider"
             ],
             "aliases": {
                 "SecurityToken": "SanderCokart\\LaravelApiAuth\\Facades\\SecurityTokenFacade"
