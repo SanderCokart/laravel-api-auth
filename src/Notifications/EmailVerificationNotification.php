@@ -53,7 +53,7 @@ class EmailVerificationNotification extends Notification
             ->line('Please verify your email address by clicking the button below.')
             ->action('Verify', $this->url)
             ->line($this->generateExpirationTimestamp($notifiable, $minutes))
-            ->salutation('Kind regards, Sander Cokart.');
+            ->salutation(config('api-auth.salutation'));
     }
 
     /**

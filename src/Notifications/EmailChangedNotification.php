@@ -55,7 +55,6 @@ class EmailChangedNotification extends Notification
             ->line('If you did not change your email address, press the button below to reset your email and password.')
             ->line($this->generateExpirationTimestamp($notifiable, $minutes))
             ->action('This was not me!', $this->url)
-            //TODO replace hardcoded  with config
             ->salutation(config('api-auth.salutation'));
     }
 

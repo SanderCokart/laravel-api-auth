@@ -55,7 +55,7 @@ class PasswordChangedNotification extends Notification
             ->line('if you did not change your password, please press the button below to reset your password.')
             ->line($this->generateExpirationTimestamp($notifiable, $minutes))
             ->action('This was not me!', $this->url)
-            ->salutation('Kind regards, Sander Cokart');
+            ->salutation(config('api-auth.salutation'));
     }
 
     /**

@@ -55,7 +55,7 @@ class PasswordResetNotification extends Notification
             ->line('If you did not request a password reset, no further action is required.')
             ->line($this->generateExpirationTimestamp($notifiable, $minutes))
             ->action('Reset Password', $this->url)
-            ->salutation('Kind regards, Sander Cokart');
+            ->salutation(config('api-auth.salutation'));
     }
 
     /**
