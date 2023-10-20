@@ -6,7 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\User;
 use Illuminate\Http\JsonResponse;
 use SanderCokart\LaravelApiAuth\Models\EmailChange;
-use SanderCokart\LaravelApiAuth\Observers\UserObserver;
+use SanderCokart\LaravelApiAuth\Observers\PasswordEmailChangeObserver;
 use SanderCokart\LaravelApiAuth\Requests\EmailResetRequest;
 
 class EmailResetController extends Controller
@@ -15,7 +15,7 @@ class EmailResetController extends Controller
      * @param EmailResetRequest $request
      *
      * @return JsonResponse
-     * @see UserObserver IMPORTANT! This endpoint updates the user quietly
+     * @see PasswordEmailChangeObserver IMPORTANT! This endpoint updates the user quietly
      */
     public function __invoke(EmailResetRequest $request): JsonResponse
     {

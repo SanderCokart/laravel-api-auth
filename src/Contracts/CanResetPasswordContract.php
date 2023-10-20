@@ -4,5 +4,5 @@ namespace SanderCokart\LaravelApiAuth\Contracts;
 
 interface CanResetPasswordContract
 {
-    public function sendPasswordResetNotification(): void;
+    public function sendPasswordResetNotification(string $frontendName): void;
 }

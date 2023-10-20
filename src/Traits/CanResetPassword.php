@@ -17,7 +17,7 @@ trait CanResetPassword
     /**
      * @throws BindingResolutionException
      */
-    public function sendPasswordChangedNotification(): void
+    public function sendPasswordChangedNotification(string $frontendName): void
     {
         /** @var User $this */
         $url = SecurityToken::generateUrlWithToken(
@@ -32,6 +32,6 @@ trait CanResetPassword
             $this,
         );
 
-        $this->notify(new PasswordChangedNotification($url));
+        $this->notify(new PasswordChangedNotification($url, $frontendName));
     }
 }

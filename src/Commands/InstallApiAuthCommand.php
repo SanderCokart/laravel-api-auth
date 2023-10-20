@@ -39,16 +39,14 @@ class InstallApiAuthCommand extends Command
 
         $enableTimezones = $this->confirm('Do you want to enable timezones?', false);
         $publishExampleUser = $this->confirm('Publish an example user model?', false);
-        $this->info('This package currently only supports a single frontend. Please contribute if you want to add more frontends.');
-        $frontendName = $this->ask('What is the name of your frontend? Additionally you can define a FRONTEND_NAME environment variable. See config file.', 'config.api-auth.frontend_name');
-        $salutation = $this->ask('What should your notification salutation be? Feel free to customize it in the published App\\Notifications\\vendor\\SanderCokart\\LaravelApiAuth\\* Notification files.', 'Kind regards, WEBSITE_OWNER_NAME');
+        $salutation = $this->ask('What should your initial notification salutation be?', 'Kind regards, ' . config('app.name'));
+        $this->line('You can always edit the actual Notifications and disregard the config salutation.');
 
         $this->call('vendor:publish', [
             '--provider' => "SanderCokart\LaravelApiAuth\ApiAuthServiceProvider",
             '--tag'      => [
                 ($enableTimezones ? 'sc-auth-timezone-migration' : ''),
                 ($publishExampleUser ? 'sc-auth-example-user' : ''),
-                'sc-auth-observers',
                 'sc-auth-controllers',
                 'sc-auth-migrations',
                 'sc-auth-models',
@@ -62,11 +60,9 @@ class InstallApiAuthCommand extends Command
         $config = file_get_contents(__DIR__ . '/../stubs/config/api-auth.stub');
 
         $config = str_replace([
-            ':frontend_name',
             ':salutation',
             ':timezones_enabled',
         ], [
-            "'{$frontendName}'",
             "'{$salutation}'",
             $enableTimezones ? 'true' : 'false',
         ], $config);

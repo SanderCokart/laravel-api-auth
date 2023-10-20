@@ -25,7 +25,7 @@ class ApiAuthServiceProvider extends ServiceProvider
             $this->commands([
                 Commands\InstallApiAuthCommand::class,
             ]);
-            $this->publishEverything();
+            $this->offerPublishing();
         } else {
             $this->registerCarbonMacros();
             $this->registerRouteMacros();
@@ -56,12 +56,12 @@ class ApiAuthServiceProvider extends ServiceProvider
         ], ['sc-auth-requests']);
     }
 
-    public function publishObservers(): void
+    /*public function publishObservers(): void
     {
         $this->publishes([
-            __DIR__ . '/stubs/Observers/UserObserver.stub' => app_path('Observers/UserObserver.php'),
+            __DIR__ . '/stubs/Observers/PasswordEmailChangeObserver.stub' => app_path('Observers/PasswordEmailChangeObserver.php'),
         ], ['sc-auth-observers']);
-    }
+    }*/
 
     public function publishControllers(): void
     {
@@ -110,14 +110,14 @@ class ApiAuthServiceProvider extends ServiceProvider
     public function publishTimezoneMigration(): void
     {
         $this->publishes([
-            __DIR__ . '/migrations/add_timezone_to_users_table.php' => database_path('migrations/' . date('Y_m_d_His') . '_add_timezone_to_users_table.php'),
+            __DIR__ . '/database/migrations/add_timezone_to_users_table.php' => database_path('migrations/' . date('Y_m_d_His') . '_add_timezone_to_users_table.php'),
         ], ['sc-auth-timezone-migration']);
     }
 
     public function publishMigration(): void
     {
         $this->publishes([
-            __DIR__ . '/migrations/create_email_and_password_related_tables.php' => database_path('migrations/' . date('Y_m_d_His') . '_create_api_auth_tables.php'),
+            __DIR__ . '/database/migrations/create_email_and_password_related_tables.php' => database_path('migrations/' . date('Y_m_d_His') . '_create_api_auth_tables.php'),
         ], ['sc-auth-migrations']);
     }
 
@@ -171,13 +171,12 @@ class ApiAuthServiceProvider extends ServiceProvider
         });
     }
 
-    private function publishEverything(): void
+    private function offerPublishing(): void
     {
         $this->publishConfigFile();
         $this->publishControllers();
         $this->publishModels();
         $this->publishNotifications();
-        $this->publishObservers();
         $this->publishRequests();
         $this->publishRoutes();
         $this->publishTheExampleUser();

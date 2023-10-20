@@ -38,7 +38,7 @@ trait MustVerifyEmail
     /**
      * @throws BindingResolutionException
      */
-    public function sendEmailVerificationNotification(): void
+    public function sendEmailVerificationNotification(string $frontendName): void
     {
         $url = SecurityToken::generateUrlWithToken(
             EmailVerification::class,
@@ -51,6 +51,6 @@ trait MustVerifyEmail
             },
         );
 
-        $this->notify(new EmailVerificationNotification($url));
+        $this->notify(new EmailVerificationNotification($url, $frontendName));
     }
 }

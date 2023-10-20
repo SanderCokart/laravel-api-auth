@@ -8,5 +8,5 @@ interface MustVerifyEmailContract
 
     public function markEmailAsVerified(): bool;
 
-    public function sendEmailVerificationNotification(): void;
+    public function sendEmailVerificationNotification(string $frontendName): void;
 }

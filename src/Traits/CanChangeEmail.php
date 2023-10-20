@@ -14,9 +14,11 @@ trait CanChangeEmail
     use Notifiable;
 
     /**
+     * @param string $frontendName - The name of the frontend that will be used in the email e.g. 'example.com'
+     *
      * @throws BindingResolutionException
      */
-    public function sendEmailChangedNotification(): void
+    public function sendEmailChangedNotification(string $frontendName): void
     {
         /** @var User $this */
         $url = SecurityToken::generateUrlWithToken(
@@ -31,6 +33,6 @@ trait CanChangeEmail
             $this,
         );
 
-        $this->notify(new EmailChangedNotification($url));
+        $this->notify(new EmailChangedNotification($url, $frontendName));
     }
 }

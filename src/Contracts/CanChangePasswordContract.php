@@ -4,5 +4,5 @@ namespace SanderCokart\LaravelApiAuth\Contracts;
 
 interface CanChangePasswordContract
 {
-    public function sendPasswordChangedNotification(): void;
+    public function sendPasswordChangedNotification(string $frontendName): void;
 }

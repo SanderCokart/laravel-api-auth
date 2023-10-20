@@ -12,7 +12,7 @@ class PasswordChangeController extends Controller
      * @param PasswordChangeRequest $request
      *
      * @return JsonResponse
-     * @see UserObserver for update logic
+     * @see PasswordEmailChangeObserver for update logic
      */
     public function __invoke(PasswordChangeRequest $request): JsonResponse
     {

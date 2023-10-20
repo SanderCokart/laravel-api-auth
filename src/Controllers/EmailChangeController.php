@@ -4,7 +4,7 @@ namespace SanderCokart\LaravelApiAuth\Controllers;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\JsonResponse;
-use SanderCokart\LaravelApiAuth\Observers\UserObserver;
+use SanderCokart\LaravelApiAuth\Observers\PasswordEmailChangeObserver;
 use SanderCokart\LaravelApiAuth\Requests\EmailChangeRequest;
 
 class EmailChangeController extends Controller
@@ -13,7 +13,7 @@ class EmailChangeController extends Controller
      * @param EmailChangeRequest $request
      *
      * @return JsonResponse
-     * @see UserObserver for update logic
+     * @see PasswordEmailChangeObserver for update logic
      */
     public function __invoke(EmailChangeRequest $request): JsonResponse
     {
